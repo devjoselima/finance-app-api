@@ -5,12 +5,15 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npx husky install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.53.0"
+    "eslint": "^8.53.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.2"
   }
 }
