@@ -1,4 +1,4 @@
-import { PostgresHelper } from '../../db/postgres/helper';
+import { PostgresHelper } from '../../db/postgres/helper'
 
 export class PostgresCreateUserRepository {
   async execute(createUserParams) {
@@ -10,8 +10,8 @@ export class PostgresCreateUserRepository {
         createUserParams.last_name,
         createUserParams.password,
       ],
-    );
+    )
 
-    return results[0];
+    return results[0]
   }
 }
