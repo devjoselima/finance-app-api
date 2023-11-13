@@ -1,5 +1,5 @@
-import { CreateUserUseCase } from '../use-cases/create-user.js'
 import validator from 'validator'
+import { CreateUserUseCase } from '../use-cases/create-user.js'
 import { badRequest, created, serverError } from './helper.js'
 
 export class CreateUserController {
@@ -24,7 +24,7 @@ export class CreateUserController {
 
       if (!emailIsValid) {
         return badRequest({
-          message: 'Invalid e-mail; Please provide a valid one.',
+          message: 'Invalid e-mail. Please provide a valid one.',
         })
       }
 
