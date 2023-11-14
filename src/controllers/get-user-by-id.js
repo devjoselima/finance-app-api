@@ -1,3 +1,4 @@
+import { EmailAlreadyInUseError } from '../errors/user.js'
 import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
 import { notFound, success, badRequest } from './helper.js'
 import validator from 'validator'
@@ -18,6 +19,9 @@ export class GetUserByIdController {
 
       return success(user)
     } catch (error) {
+      if (error instanceof EmailAlreadyInUseError) {
+        return badRequest({ message: error.message })
+      }
       console.error(error)
       return notFound({ message: "User id doesn't exists" })
     }
