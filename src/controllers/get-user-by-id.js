@@ -17,6 +17,10 @@ export class GetUserByIdController {
 
       const user = await getUserByIdUseCase.execute(httpRequest.params.userId)
 
+      if (!user) {
+        return notFound({ message: 'User not found' })
+      }
+
       return success(user)
     } catch (error) {
       if (error instanceof EmailAlreadyInUseError) {
