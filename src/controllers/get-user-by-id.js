@@ -1,7 +1,12 @@
 import { EmailAlreadyInUseError } from '../errors/user.js'
 import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
-import { notFound, success, badRequest } from './helpers/http.js'
-import { checkIfIdIsValid, invalidIdResponse } from './helpers/user.js'
+import {
+  checkIfIdIsValid,
+  invalidIdResponse,
+  notFound,
+  success,
+  badRequest,
+} from './helpers/index.js'
 
 export class GetUserByIdController {
   async execute(httpRequest) {
