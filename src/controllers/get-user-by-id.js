@@ -1,7 +1,9 @@
+import validator from 'validator'
+
 import { EmailAlreadyInUseError } from '../errors/user.js'
 import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
-import { notFound, success, badRequest } from './helper.js'
-import validator from 'validator'
+import { notFound, success, badRequest } from './helpers/http.js'
+import { invalidIdResponse } from './helpers/user.js'
 
 export class GetUserByIdController {
   async execute(httpRequest) {
@@ -9,9 +11,7 @@ export class GetUserByIdController {
       const isIdValid = validator.isUUID(httpRequest.params.userId)
 
       if (!isIdValid) {
-        return badRequest({
-          message: 'The provided id is not valid',
-        })
+        return invalidIdResponse()
       }
       const getUserByIdUseCase = new GetUserByIdUseCase()
 
