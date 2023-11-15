@@ -1,5 +1,5 @@
 import { EmailAlreadyInUseError } from '../errors/user.js'
-import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
+import { GetUserByIdUseCase } from '../use-cases/index.js'
 import {
   checkIfIdIsValid,
   invalidIdResponse,

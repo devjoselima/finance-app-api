@@ -5,7 +5,7 @@ import {
   CreateUserController,
   GetUserByIdController,
   UpdateUserController,
-} from '/.src/controllers/index.js'
+} from './src/controllers/index.js'
 
 const app = express()
 
