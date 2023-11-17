@@ -6,6 +6,7 @@ import {
   notFound,
   success,
   badRequest,
+  userNotFoundResponse,
 } from './helpers/index.js'
 
 export class GetUserByIdController {
@@ -22,7 +23,7 @@ export class GetUserByIdController {
       const user = await getUserByIdUseCase.execute(httpRequest.params.userId)
 
       if (!user) {
-        return notFound({ message: 'User not found' })
+        return userNotFoundResponse()
       }
 
       return success(user)
