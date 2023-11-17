@@ -25,6 +25,6 @@ export const userNotFoundResponse = () =>
 
 export const checkIfPasswordIsValid = (password) => password.length >= 6
 
-export const checkIfEmailIsValid = (email) => validator.IsEmail(email)
+export const checkIfEmailIsValid = (email) => validator.isEmail(email)
 
 export const checkIfIdIsValid = (id) => validator.isUUID(id)
