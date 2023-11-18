@@ -1,4 +1,3 @@
-import { UpdateUserUseCase } from '../use-cases/index.js'
 import { EmailAlreadyInUseError } from '../errors/user.js'
 import {
   emailIsAlreadyInUseResponse,
@@ -13,6 +12,9 @@ import {
 } from './helpers/index.js'
 
 export class UpdateUserController {
+  constructor(updateUserUseCase) {
+    this.updateUserUseCase = updateUserUseCase
+  }
   async execute(httpRequest) {
     try {
       const userId = httpRequest.params.userId
@@ -49,8 +51,7 @@ export class UpdateUserController {
           return emailIsAlreadyInUseResponse()
         }
       }
-      const updateUserUseCase = new UpdateUserUseCase()
-      const updatedUser = await updateUserUseCase.execute(userId, params)
+      const updatedUser = await this.updateUserUseCase.execute(userId, params)
 
       return success(updatedUser)
     } catch (error) {
