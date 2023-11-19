@@ -6,7 +6,7 @@ import {
   badRequest,
   created,
   serverError,
-} from './helpers/index.js'
+} from '../helpers/index.js'
 
 export class CreateUserController {
   constructor(createUserUseCase) {

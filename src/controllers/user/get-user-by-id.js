@@ -1,4 +1,4 @@
-import { EmailAlreadyInUseError } from '../errors/user.js'
+import { EmailAlreadyInUseError } from '../../errors/user.js'
 import {
   checkIfIdIsValid,
   invalidIdResponse,
@@ -6,7 +6,7 @@ import {
   success,
   badRequest,
   userNotFoundResponse,
-} from './helpers/index.js'
+} from '../helpers/index.js'
 
 export class GetUserByIdController {
   constructor(getUserByIdUseCase) {
