@@ -1,69 +1,69 @@
 import {
-  CreateUserController,
-  DeleteUserController,
-  GetUserByIdController,
-  UpdateUserController,
+    CreateUserController,
+    DeleteUserController,
+    GetUserByIdController,
+    UpdateUserController,
 } from '../../controllers/index.js'
 
 import {
-  GetUserByIdUseCase,
-  CreateUserUseCase,
-  UpdateUserUseCase,
-  DeleteUserUseCase,
+    GetUserByIdUseCase,
+    CreateUserUseCase,
+    UpdateUserUseCase,
+    DeleteUserUseCase,
 } from '../../use-cases/index.js'
 
 import {
-  PostgresGetUserByIdRepository,
-  PostgresCreateUserRepository,
-  PostgresGetUserByEmailRepository,
-  PostgresUpdateUserRepository,
-  PostgresDeleteUserRepository,
+    PostgresGetUserByIdRepository,
+    PostgresCreateUserRepository,
+    PostgresGetUserByEmailRepository,
+    PostgresUpdateUserRepository,
+    PostgresDeleteUserRepository,
 } from '../../repositories/postgres/index.js'
 
 export const makeGetUserByIdController = () => {
-  const getUserByIdRepository = new PostgresGetUserByIdRepository()
+    const getUserByIdRepository = new PostgresGetUserByIdRepository()
 
-  const getUserByIdUseCase = new GetUserByIdUseCase(getUserByIdRepository)
+    const getUserByIdUseCase = new GetUserByIdUseCase(getUserByIdRepository)
 
-  const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
+    const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
 
-  return getUserByIdController
+    return getUserByIdController
 }
 
 export const makeCreateUserController = () => {
-  const createUserRepository = new PostgresCreateUserRepository()
-  const getUserByEmailRepository = new PostgresGetUserByEmailRepository()
+    const createUserRepository = new PostgresCreateUserRepository()
+    const getUserByEmailRepository = new PostgresGetUserByEmailRepository()
 
-  const createUserUseCase = new CreateUserUseCase(
-    getUserByEmailRepository,
-    createUserRepository,
-  )
+    const createUserUseCase = new CreateUserUseCase(
+        getUserByEmailRepository,
+        createUserRepository,
+    )
 
-  const createUserController = new CreateUserController(createUserUseCase)
+    const createUserController = new CreateUserController(createUserUseCase)
 
-  return createUserController
+    return createUserController
 }
 
 export const makeUpdateUserController = () => {
-  const getUserByEmailRepository = new PostgresGetUserByEmailRepository()
-  const updateUserRepository = new PostgresUpdateUserRepository()
+    const getUserByEmailRepository = new PostgresGetUserByEmailRepository()
+    const updateUserRepository = new PostgresUpdateUserRepository()
 
-  const updateUserUseCase = new UpdateUserUseCase(
-    getUserByEmailRepository,
-    updateUserRepository,
-  )
+    const updateUserUseCase = new UpdateUserUseCase(
+        getUserByEmailRepository,
+        updateUserRepository,
+    )
 
-  const updateUserController = new UpdateUserController(updateUserUseCase)
+    const updateUserController = new UpdateUserController(updateUserUseCase)
 
-  return updateUserController
+    return updateUserController
 }
 
 export const makeDeleteUserController = () => {
-  const deleteUserRepository = new PostgresDeleteUserRepository()
+    const deleteUserRepository = new PostgresDeleteUserRepository()
 
-  const deleteUserUseCase = new DeleteUserUseCase(deleteUserRepository)
+    const deleteUserUseCase = new DeleteUserUseCase(deleteUserRepository)
 
-  const deleteUserController = new DeleteUserController(deleteUserUseCase)
+    const deleteUserController = new DeleteUserController(deleteUserUseCase)
 
-  return deleteUserController
+    return deleteUserController
 }
