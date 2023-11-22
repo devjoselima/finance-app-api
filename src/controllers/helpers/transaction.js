@@ -8,13 +8,13 @@ export const checkIfAmountIsValid = (amount) => {
 
     return validator.isCurrency(amount.toFixed(2), {
         digits_after_decimal: [2],
-        allow_decimal: false,
+        allow_negatives: false,
         decimal_separator: '.',
     })
 }
 
 export const checkIfTypeIsValid = (type) => {
-    return ['EARNING', 'EXPENSIVE', 'INVESTMENT'].includes(type)
+    return ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(type)
 }
 
 export const invalidAmountResponse = () => {
@@ -25,6 +25,6 @@ export const invalidAmountResponse = () => {
 
 export const invalidTypeResponse = () => {
     return badRequest({
-        message: 'The type must be EARNING, EXPENSIVE or INVESTMENT',
+        message: 'The type must be EARNING, EXPENSE or INVESTMENT',
     })
 }
