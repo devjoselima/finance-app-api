@@ -46,7 +46,7 @@ export class UpdateTransactionController {
             }
 
             if (params.type) {
-                const typeIsValid = checkIfTypeIsValid()
+                const typeIsValid = checkIfTypeIsValid(params.type)
 
                 if (!typeIsValid) {
                     return invalidTypeResponse()
