@@ -1,9 +1,10 @@
 import {
-    ServerError,
+    serverError,
     checkIfIdIsValid,
     invalidIdResponse,
     success,
-} from '../index.js'
+    transactionNotFoundResponse,
+} from '../helpers/index.js'
 
 export class DeleteTransactionController {
     constructor(deleteTransactionUseCase) {
@@ -12,19 +13,24 @@ export class DeleteTransactionController {
 
     async execute(httpRequest) {
         try {
-            const idIsValid = checkIfIdIsValid()
+            const transactionId = httpRequest.params.transactionId
+            const idIsValid = checkIfIdIsValid(transactionId)
+
             if (!idIsValid) {
                 return invalidIdResponse()
             }
 
-            const transaction = await this.deleteTransactionUseCase.execute(
-                httpRequest.params.transactionId,
-            )
+            const deletedTransaction =
+                await this.deleteTransactionUseCase.execute(transactionId)
 
-            return success(transaction)
+            if (!deletedTransaction) {
+                return transactionNotFoundResponse()
+            }
+
+            return success(deletedTransaction)
         } catch (error) {
             console.error(error)
-            return ServerError()
+            return serverError()
         }
     }
 }
