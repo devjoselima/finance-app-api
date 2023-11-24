@@ -3,7 +3,7 @@ import { badRequest } from './http.js'
 
 export const invalidIdResponse = () => {
     return badRequest({
-        message: 'The provided ID  is not valid.',
+        message: 'The provided ID is not valid.',
     })
 }
 
