@@ -18,7 +18,8 @@
         "eslint-config-prettier": "^9.0.0",
         "git-commit-msg-linter": "^5.0.4",
         "husky": "^8.0.3",
-        "lint-staged": "^15.0.2"
+        "lint-staged": "^15.0.2",
+        "prisma": "^5.9.1"
     },
     "dependencies": {
         "bcrypt": "^5.1.1",
