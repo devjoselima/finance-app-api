@@ -107,4 +107,19 @@ describe('Create User Controller', () => {
 
         expect(result.statusCode).toBe(400)
     })
+
+    it('should return 400 if password is less than 6 digits ', async () => {
+        const httpRequest = {
+            body: {
+                first_name: 'John',
+                last_name: 'Doe',
+                email: 'johndoe@mail.com',
+                password: '12345',
+            },
+        }
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(400)
+    })
 })
