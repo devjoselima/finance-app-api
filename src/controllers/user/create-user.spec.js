@@ -1,6 +1,6 @@
 import { CreateUserController } from './create-user.js'
 
-import { describe, it, expect, beforeEach } from '@jest/globals'
+import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 
 let createUserUseCase
 let sut
@@ -34,7 +34,7 @@ describe('Create User Controller', () => {
         const result = await sut.execute(httpRequest)
 
         expect(result.statusCode).toBe(201)
-        expect(result.body).toBe(httpRequest.body)
+        expect(result.body).toEqual(httpRequest.body)
     })
 
     it('should return 400 if first_name is not provided', async () => {
@@ -121,5 +121,22 @@ describe('Create User Controller', () => {
         const result = await sut.execute(httpRequest)
 
         expect(result.statusCode).toBe(400)
+    })
+
+    it('should call CreateUserUseCase with correct params', async () => {
+        const httpRequest = {
+            body: {
+                first_name: 'John',
+                last_name: 'Doe',
+                email: 'johndoe@mail.com',
+                password: '1234567',
+            },
+        }
+
+        const executeSpy = jest.spyOn(createUserUseCase, 'execute')
+
+        await sut.execute(httpRequest)
+
+        expect(executeSpy).toHaveBeenCalledWith(httpRequest.body)
     })
 })
