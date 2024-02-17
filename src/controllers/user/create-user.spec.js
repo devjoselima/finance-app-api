@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import { faker } from '@faker-js/faker'
 
 import { CreateUserController } from './create-user.js'
+import { EmailAlreadyInUseError } from '../../errors/user.js'
 
 let createUserUseCase
 let sut
@@ -169,6 +170,27 @@ describe('Create User Controller', () => {
 
         jest.spyOn(createUserUseCase, 'execute').mockImplementationOnce(() => {
             throw new Error()
+        })
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(500)
+    })
+
+    it('should return 500 if CreateUserUseCase throws EmailAlreadyInUseError', async () => {
+        const httpRequest = {
+            body: {
+                first_name: faker.person.firstName(),
+                last_name: faker.person.lastName(),
+                email: faker.internet.email(),
+                password: faker.internet.password({
+                    length: 7,
+                }),
+            },
+        }
+
+        jest.spyOn(createUserUseCase, 'execute').mockImplementationOnce(() => {
+            throw new EmailAlreadyInUseError()
         })
 
         const result = await sut.execute(httpRequest)
