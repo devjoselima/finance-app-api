@@ -1,6 +1,7 @@
-import { CreateUserController } from './create-user.js'
-
 import { describe, it, expect, beforeEach, jest } from '@jest/globals'
+import { faker } from '@faker-js/faker'
+
+import { CreateUserController } from './create-user.js'
 
 let createUserUseCase
 let sut
@@ -24,10 +25,12 @@ describe('Create User Controller', () => {
     it('should return 201 when creating a user successfully', async () => {
         const httpRequest = {
             body: {
-                first_name: 'John',
-                last_name: 'Doe',
-                email: 'johndoe@mail.com',
-                password: '1234567',
+                first_name: faker.person.firstName(),
+                last_name: faker.person.lastName(),
+                email: faker.internet.email(),
+                password: faker.internet.password({
+                    length: 7,
+                }),
             },
         }
 
@@ -40,9 +43,11 @@ describe('Create User Controller', () => {
     it('should return 400 if first_name is not provided', async () => {
         const httpRequest = {
             body: {
-                last_name: 'Doe',
-                email: 'johndoe@mail.com',
-                password: '1234567',
+                last_name: faker.person.lastName(),
+                email: faker.internet.email(),
+                password: faker.internet.password({
+                    length: 7,
+                }),
             },
         }
 
@@ -54,9 +59,11 @@ describe('Create User Controller', () => {
     it('should return 400 if last_name is not provided', async () => {
         const httpRequest = {
             body: {
-                first_name: 'John',
-                email: 'johndoe@mail.com',
-                password: '1234567',
+                first_name: faker.person.firstName(),
+                email: faker.internet.email(),
+                password: faker.internet.password({
+                    length: 7,
+                }),
             },
         }
 
@@ -68,9 +75,11 @@ describe('Create User Controller', () => {
     it('should return 400 if email is not provided', async () => {
         const httpRequest = {
             body: {
-                first_name: 'John',
-                last_name: 'Doe',
-                password: '1234567',
+                first_name: faker.person.firstName(),
+                last_name: faker.person.lastName(),
+                password: faker.internet.password({
+                    length: 7,
+                }),
             },
         }
 
@@ -82,10 +91,12 @@ describe('Create User Controller', () => {
     it('should return 400 if email is not valid', async () => {
         const httpRequest = {
             body: {
-                first_name: 'John',
-                email: 'johndoemail.com',
-                last_name: 'Doe',
-                password: '1234567',
+                first_name: faker.person.firstName(),
+                email: 'invalid_email',
+                last_name: faker.person.lastName(),
+                password: faker.internet.password({
+                    length: 7,
+                }),
             },
         }
 
@@ -97,9 +108,9 @@ describe('Create User Controller', () => {
     it('should return 400 if password is not provided', async () => {
         const httpRequest = {
             body: {
-                first_name: 'John',
-                last_name: 'Doe',
-                email: 'johndoe@mail.com',
+                first_name: faker.person.firstName(),
+                last_name: faker.person.lastName(),
+                email: faker.internet.email(),
             },
         }
 
@@ -111,10 +122,12 @@ describe('Create User Controller', () => {
     it('should return 400 if password is less than 6 digits ', async () => {
         const httpRequest = {
             body: {
-                first_name: 'John',
-                last_name: 'Doe',
-                email: 'johndoe@mail.com',
-                password: '12345',
+                first_name: faker.person.firstName(),
+                last_name: faker.person.lastName(),
+                email: faker.internet.email(),
+                password: faker.internet.password({
+                    length: 5,
+                }),
             },
         }
 
@@ -126,10 +139,12 @@ describe('Create User Controller', () => {
     it('should call CreateUserUseCase with correct params', async () => {
         const httpRequest = {
             body: {
-                first_name: 'John',
-                last_name: 'Doe',
-                email: 'johndoe@mail.com',
-                password: '1234567',
+                first_name: faker.person.firstName(),
+                last_name: faker.person.lastName(),
+                email: faker.internet.email(),
+                password: faker.internet.password({
+                    length: 7,
+                }),
             },
         }
 
