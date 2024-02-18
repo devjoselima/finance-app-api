@@ -1,10 +1,16 @@
-import { describe, it, expect, beforeEach } from '@jest/globals'
+import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import { faker } from '@faker-js/faker'
 
 import { GetUserBalanceController } from '../index.js'
 
 let getUserBalanceUseCase
 let sut
+
+const httpRequest = {
+    params: {
+        userId: faker.string.uuid(),
+    },
+}
 
 describe('Get User Balance Controller', () => {
     class GetUserBalanceUseCaseStub {
@@ -19,26 +25,24 @@ describe('Get User Balance Controller', () => {
     })
 
     it('should return 200 when getting user balance', async () => {
-        const httpRequest = {
-            params: {
-                userId: faker.string.uuid(),
-            },
-        }
-
         const result = await sut.execute(httpRequest)
 
         expect(result.statusCode).toBe(200)
     })
 
     it('should return 400 when userId is invalid', async () => {
-        const httpRequest = {
-            params: {
-                userId: 'invalid_id',
-            },
-        }
+        const result = await sut.execute({ params: { userId: 'invalid_id' } })
+
+        expect(result.statusCode).toBe(400)
+    })
+
+    it('should return 500 if GetUserBalanceUseCase throws', async () => {
+        jest.spyOn(getUserBalanceUseCase, 'execute').mockRejectedValueOnce(
+            new Error(),
+        )
 
         const result = await sut.execute(httpRequest)
 
-        expect(result.statusCode).toBe(400)
+        expect(result.statusCode).toBe(500)
     })
 })
