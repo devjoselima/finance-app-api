@@ -7,6 +7,11 @@ let deleteUserUseCase
 let sut
 
 describe('Delete User Controller', () => {
+    const httpRequest = {
+        params: {
+            userId: faker.string.uuid(),
+        },
+    }
     class DeleteUserUseCaseStub {
         execute() {
             return {
@@ -27,36 +32,18 @@ describe('Delete User Controller', () => {
     })
 
     it('should return 200 when deleting a user successfully', async () => {
-        const httpRequest = {
-            params: {
-                userId: faker.string.uuid(),
-            },
-        }
-
         const result = await sut.execute(httpRequest)
 
         expect(result.statusCode).toBe(200)
     })
 
     it('should return 400 if id is invalid', async () => {
-        const httpRequest = {
-            params: {
-                userId: 'invalid_id',
-            },
-        }
-
-        const result = await sut.execute(httpRequest)
+        const result = await sut.execute({ params: { userId: 'invalid_id' } })
 
         expect(result.statusCode).toBe(400)
     })
 
     it('should return 404 if user is not found', async () => {
-        const httpRequest = {
-            params: {
-                userId: faker.string.uuid(),
-            },
-        }
-
         jest.spyOn(deleteUserUseCase, 'execute').mockImplementationOnce(
             () => null,
         )
@@ -67,15 +54,9 @@ describe('Delete User Controller', () => {
     })
 
     it('should return 500 if DeleteUserUseCase throws', async () => {
-        const httpRequest = {
-            params: {
-                userId: faker.string.uuid(),
-            },
-        }
-
-        jest.spyOn(deleteUserUseCase, 'execute').mockImplementationOnce(() => {
-            throw new Error()
-        })
+        jest.spyOn(deleteUserUseCase, 'execute').mockRejectedValueOnce(
+            new Error(),
+        )
 
         const result = await sut.execute(httpRequest)
 
