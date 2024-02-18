@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "test": "jest --silent",
-        "test:watch": "jest --watch",
+        "test:watch": "jest --watch --silent",
         "postinstall": "npx husky install",
         "migrations": "node src/db/postgres/migrations/exec.js",
         "start:dev": "node --watch index.js"
