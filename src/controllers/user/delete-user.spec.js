@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from '@jest/globals'
+import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import { faker } from '@faker-js/faker'
 
 import { DeleteUserController } from '../index.js'
@@ -48,5 +48,21 @@ describe('Delete User Controller', () => {
         const result = await sut.execute(httpRequest)
 
         expect(result.statusCode).toBe(400)
+    })
+
+    it('should return 404 if user is not found', async () => {
+        const httpRequest = {
+            params: {
+                userId: faker.string.uuid(),
+            },
+        }
+
+        jest.spyOn(deleteUserUseCase, 'execute').mockImplementationOnce(
+            () => null,
+        )
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(404)
     })
 })
