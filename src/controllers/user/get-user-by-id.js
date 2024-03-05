@@ -2,7 +2,7 @@ import { EmailAlreadyInUseError } from '../../errors/user.js'
 import {
     checkIfIdIsValid,
     invalidIdResponse,
-    notFound,
+    serverError,
     success,
     badRequest,
     userNotFoundResponse,
@@ -35,7 +35,7 @@ export class GetUserByIdController {
                 return badRequest({ message: error.message })
             }
             console.error(error)
-            return notFound({ message: "User id doesn't exists" })
+            return serverError()
         }
     }
 }
