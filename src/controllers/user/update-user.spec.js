@@ -21,7 +21,7 @@ const httpRequest = {
     },
 }
 
-describe('Get User By Id Controller', () => {
+describe('Updata User Controller', () => {
     class UpdateUserStub {
         execute(user) {
             return user
