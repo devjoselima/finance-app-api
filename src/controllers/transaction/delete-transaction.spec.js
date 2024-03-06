@@ -1,11 +1,17 @@
-import { describe, it, expect, beforeEach } from '@jest/globals'
+import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import { faker } from '@faker-js/faker'
 import { DeleteTransactionController } from '../index.js'
 
 let deleteTransactionUseCase
 let sut
 
-describe('Create Transaction Controller', () => {
+describe('Delete Transaction Controller', () => {
+    const httpRequest = {
+        params: {
+            transactionId: faker.string.uuid(),
+        },
+    }
+
     class DeleteTransactionUseCaseStub {
         execute() {
             return {
@@ -32,5 +38,35 @@ describe('Create Transaction Controller', () => {
         })
 
         expect(response.statusCode).toBe(200)
+    })
+
+    it('should return 400 when uuid is invalid', async () => {
+        const response = await sut.execute({
+            params: {
+                transactionId: 'invalid_id',
+            },
+        })
+
+        expect(response.statusCode).toBe(400)
+    })
+
+    it('should return 400 if transaction is not found', async () => {
+        jest.spyOn(deleteTransactionUseCase, 'execute').mockImplementationOnce(
+            () => null,
+        )
+
+        const response = await sut.execute(httpRequest)
+
+        expect(response.statusCode).toBe(404)
+    })
+
+    it('should return 500 when DeleteTransactionUseCase throws', async () => {
+        jest.spyOn(deleteTransactionUseCase, 'execute').mockRejectedValueOnce(
+            new Error(),
+        )
+
+        const response = await sut.execute(httpRequest)
+
+        expect(response.statusCode).toBe(500)
     })
 })
