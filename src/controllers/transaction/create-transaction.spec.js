@@ -140,4 +140,12 @@ describe('Create Transaction Controller', () => {
 
         expect(response.statusCode).toBe(500)
     })
+
+    it('should call CreateTransactionUseCase with correct params', async () => {
+        const executeSpy = jest.spyOn(createTransactionUseCase, 'execute')
+
+        await sut.execute(httpRequest)
+
+        expect(executeSpy).toHaveBeenCalledWith(httpRequest.body)
+    })
 })
