@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import { faker } from '@faker-js/faker'
 
 import { GetUserBalanceController } from '../index.js'
+import { UserNotFoundError } from '../../errors/user.js'
 
 let getUserBalanceUseCase
 let sut
@@ -44,6 +45,16 @@ describe('Get User Balance Controller', () => {
         const result = await sut.execute(httpRequest)
 
         expect(result.statusCode).toBe(500)
+    })
+
+    it('should return 404 if GetUserBalanceUseCase throws UserNotFoundError', async () => {
+        jest.spyOn(getUserBalanceUseCase, 'execute').mockRejectedValueOnce(
+            new UserNotFoundError(),
+        )
+
+        const response = await sut.execute(httpRequest)
+
+        expect(response.statusCode).toBe(404)
     })
 
     it('should call GetUserBalanceUseCase with correct params', async () => {
