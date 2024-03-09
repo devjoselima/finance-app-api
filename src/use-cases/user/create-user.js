@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-import bcrypt from 'bcrypt'
 
 import { EmailAlreadyInUseError } from '../../errors/user.js'
 
@@ -7,9 +6,11 @@ export class CreateUserUseCase {
     constructor(
         postgresGetUserByEmailRepository,
         postgresCreateUserRepository,
+        passwordHasherAdapter,
     ) {
         this.postgresGetUserByEmailRepository = postgresGetUserByEmailRepository
         this.postgresCreateUserRepository = postgresCreateUserRepository
+        this.passwordHasherAdapter = passwordHasherAdapter
     }
 
     async execute(createUserParams) {
@@ -23,7 +24,9 @@ export class CreateUserUseCase {
         }
 
         const userId = uuidv4()
-        const hashedPassword = await bcrypt.hash(createUserParams.password, 10)
+        const hashedPassword = await this.passwordHasherAdapter.execute(
+            createUserParams.password,
+        )
 
         const user = {
             ...createUserParams,
