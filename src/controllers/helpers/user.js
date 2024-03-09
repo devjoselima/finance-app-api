@@ -6,11 +6,5 @@ export const invalidPasswordResponse = () => {
     })
 }
 
-export const emailIsAlreadyInUseResponse = () => {
-    return badRequest({
-        message: 'Invalid e-mail. Please provide a valid one.',
-    })
-}
-
 export const userNotFoundResponse = () =>
     notFound({ message: 'User not found.' })

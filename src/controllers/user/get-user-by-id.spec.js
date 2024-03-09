@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import { faker } from '@faker-js/faker'
 
 import { GetUserByIdController } from '../index.js'
+import { EmailAlreadyInUseError } from '../../errors/user.js'
 
 let getUserByIdUseCase
 let sut
@@ -32,50 +33,60 @@ describe('Get User By Id Controller', () => {
     })
 
     it('should return 200 if a user is found', async () => {
-        const result = await sut.execute({
+        const response = await sut.execute({
             params: { userId: faker.string.uuid() },
         })
 
-        expect(result.statusCode).toBe(200)
+        expect(response.statusCode).toBe(200)
     })
 
     it('should return 400 if the user id is invalid', async () => {
-        const result = await sut.execute({
+        const response = await sut.execute({
             params: { userId: 'invalid_id' },
         })
 
-        expect(result.statusCode).toBe(400)
+        expect(response.statusCode).toBe(400)
     })
 
     it('should return 400 if the user id is invalid', async () => {
-        const result = await sut.execute({
+        const response = await sut.execute({
             params: { userId: 'invalid_id' },
         })
 
-        expect(result.statusCode).toBe(400)
+        expect(response.statusCode).toBe(400)
     })
 
     it('should return 404 if the user id is not exist', async () => {
         jest.spyOn(getUserByIdUseCase, 'execute').mockResolvedValue(null)
 
-        const result = await sut.execute({
+        const response = await sut.execute({
             params: { userId: faker.string.uuid() },
         })
 
-        expect(result.statusCode).toBe(404)
+        expect(response.statusCode).toBe(404)
     })
 
-    it('should return 500 if GetUserBalanceUseCase throws an error', async () => {
+    it('should return 400 if GetUserByIdUseCase throws EmailAlreadyInUseError', async () => {
+        jest.spyOn(getUserByIdUseCase, 'execute').mockRejectedValueOnce(
+            new EmailAlreadyInUseError(),
+        )
+
+        const response = await sut.execute(httpRequest)
+
+        expect(response.statusCode).toBe(400)
+    })
+
+    it('should return 500 if GetUserByIdUseCase throws an generic error', async () => {
         jest.spyOn(getUserByIdUseCase, 'execute').mockRejectedValueOnce(
             new Error(),
         )
 
-        const result = await sut.execute(httpRequest)
+        const response = await sut.execute(httpRequest)
 
-        expect(result.statusCode).toBe(500)
+        expect(response.statusCode).toBe(500)
     })
 
-    it('should call GetUserBalanceUseCase with correct params', async () => {
+    it('should call GetUserByIdUseCase with correct params', async () => {
         const executeSpy = jest.spyOn(getUserByIdUseCase, 'execute')
 
         await sut.execute(httpRequest)
