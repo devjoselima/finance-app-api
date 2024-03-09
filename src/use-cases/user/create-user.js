@@ -14,12 +14,14 @@ export class CreateUserUseCase {
     }
 
     async execute(createUserParams) {
-        const userEmailAlreadyExistis =
+        const userEmailAlreadyExists =
             await this.postgresGetUserByEmailRepository.execute(
                 createUserParams.email,
             )
 
-        if (userEmailAlreadyExistis) {
+        console.log(userEmailAlreadyExists)
+
+        if (userEmailAlreadyExists) {
             throw new EmailAlreadyInUseError(createUserParams.email)
         }
 

@@ -124,13 +124,13 @@ describe('Create User Controller', () => {
         expect(result.statusCode).toBe(500)
     })
 
-    it('should return 500 if CreateUserUseCase throws EmailAlreadyInUseError', async () => {
+    it('should return 400 if CreateUserUseCase throws EmailAlreadyInUseError', async () => {
         jest.spyOn(createUserUseCase, 'execute').mockRejectedValueOnce(
             new EmailAlreadyInUseError(httpRequest.body.email),
         )
 
         const result = await sut.execute(httpRequest)
 
-        expect(result.statusCode).toBe(500)
+        expect(result.statusCode).toBe(400)
     })
 })
